@@ -11,6 +11,7 @@
   "dependencies": {
     "@ocean-network-express/magenta-react": "1.10.3",
     "@ocean-network-express/magenta-react-icons": "1.6.0",
+    "@tanstack/react-table": "8.20.6",
     "next": "14.2.17",
     "react": "^18",
     "react-dom": "^18"
