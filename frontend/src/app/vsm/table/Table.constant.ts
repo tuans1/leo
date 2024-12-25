@@ -13,3 +13,14 @@ export const STATUS_OPTIONS = [
   { value: "Active", label: "Active" },
   { value: "Inactive", label: "Inactive" },
 ];
+
+export const INIT_ROW_DATA = {
+  vesselCode: "",
+  vesselName: "",
+  carrierCode: "",
+  pseudo: true,
+  imoNo: "",
+  callSign: "",
+  flag: "",
+  status: "Active",
+};
