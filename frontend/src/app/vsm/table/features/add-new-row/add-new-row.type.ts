@@ -1,23 +1,22 @@
-import { RowData } from "@tanstack/react-table";
+import { OnChangeFn, RowData } from "@tanstack/react-table";
 
-export interface AddNewRowStates {
-  newRow: any;
+export interface AddNewRowStates<TData extends RowData> {
+  rowEditing: TData;
 }
 
 export interface AddNewRowOptions {
-  newRow: any;
+  onAddNewRowChange: OnChangeFn<AddNewRowStates>;
 }
-
-export interface AddNewRowInstance {
-  handleChangeNewRow: (key: string, value: string) => void;
+interface AddNewRowInstance {
+  handleEditingRow: (key: string, value: string) => void;
   resetAddNewRow: () => void;
 }
 
 declare module "@tanstack/react-table" {
-  interface TableState extends AddNewRowStates {}
+  interface TableState extends AddNewRowStates<RowData> {}
 
-  interface TableOptionsResolved<TData extends RowData>
-    extends AddNewRowOptions {}
+  // interface TableOptionsResolved<TData extends RowData>
+  //   extends AddNewRowOptions {}
 
   interface Table<TData extends RowData> extends AddNewRowInstance {}
 }

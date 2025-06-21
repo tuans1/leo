@@ -1,0 +1,21 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  avatar: String
+  userCreatedDt: String!
+}
+
+type Query {
+  getListUser: [User!]!
+  getListUserBySearch(params: GetUserArgs!): [User!]!
+}
+
+input GetUserArgs {
+  type: String
+  name: String!
+}
