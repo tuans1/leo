@@ -10,6 +10,7 @@ export interface User {
   email: string;
   avatar: string;
   userCreatedDt: string;
+  id: string;
 }
 
 export interface UserRequest {
@@ -17,7 +18,7 @@ export interface UserRequest {
 }
 
 export interface UserResponse {
-  user: User | undefined;
+  user: User[];
 }
 
 export const USER_PACKAGE_NAME = "user";

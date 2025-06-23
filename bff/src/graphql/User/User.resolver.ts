@@ -3,11 +3,12 @@ import { User } from './models/User.model';
 import { GetUserArgs } from './dtos/getUser.input';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Inject } from '@nestjs/common';
+
+import { firstValueFrom } from 'rxjs';
 import {
   UserServiceClient,
   User as GrpcUser,
 } from 'src/proto/build/proto-gen/user';
-import { firstValueFrom } from 'rxjs';
 
 @Resolver()
 export class UserResolver {
@@ -36,8 +37,8 @@ export class UserResolver {
       const response = await firstValueFrom(
         this.userService.getUser({ keyword: '' }),
       );
-
-      return response?.user ? [this.mapGrpcUserToGraphQL(response.user)] : [];
+      console.log('🚀 ~ UserResolver ~ getListUser ~ response:', response);
+      return undefined;
     } catch (error) {
       console.error('Error fetching user from gRPC:', error);
       return [];
@@ -45,19 +46,23 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  async getListUserBySearch(
-    @Args('params') params: GetUserArgs,
-  ): Promise<User[]> {
-    console.log('🚀 ~ UserResolver ~ params:', params);
-    try {
-      const response = await firstValueFrom(
-        this.userService.getUser({ keyword: params.name || '' }),
-      );
-
-      return response?.user ? [this.mapGrpcUserToGraphQL(response.user)] : [];
-    } catch (error) {
-      console.error('Error searching user from gRPC:', error);
-      return [];
-    }
+  getListUserBySearch(@Args('params') params: GetUserArgs): Promise<User[]> {
+    return new Promise((resolve, reject) => {
+      this.userService
+        .getUser({
+          keyword: params.name || '',
+        })
+        .subscribe({
+          next(response) {
+            console.log('🚀 ~ UserResolver ~ next ~ response:', response);
+            resolve(response.user);
+          },
+          error(err) {
+            console.log(err, '---err');
+            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+            reject(err);
+          },
+        });
+    });
   }
 }
