@@ -13,8 +13,6 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   getUser(request: UserRequest) {
-    console.log('CACACAC-----', request);
-    console.log(Result.error(Error));
     return {
       user: [
         {

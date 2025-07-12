@@ -30,6 +30,18 @@ export class Error<TData = any> {
     return this._props.data;
   }
 
+  public static simple<TData = any>(
+    description?: string,
+    data?: TData,
+  ): Error<TData> {
+    return new Error<TData>({
+      type: ErrorType.SIMPLE,
+      statusCode: ErrorStatusCode.SIMPLE,
+      description,
+      data,
+    });
+  }
+
   public static badRequest<TData = any>(
     description?: string,
     data?: TData,
