@@ -1,22 +1,27 @@
 syntax = "proto3";
+import "google/protobuf/timestamp.proto";
 
 package user;
 
 service UserService {
-  rpc getUser (UserRequest) returns (UserResponse);
+  rpc getListUser (GetListUserRequest) returns (GetListUserResponse);
 }
 
 message User {
-  string name = 1;
+  string username = 1;
   string email = 2;
   string avatar = 3;
-  string userCreatedDt = 4;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  string user_id = 6;
+  string password = 7;
+  bool is_active = 8;
 }
 
-message UserRequest {
+message GetListUserRequest {
   string keyword = 1;
 }
 
-message UserResponse {
-  User user = 1;
+message GetListUserResponse {
+  repeated User listUser = 1;
 }

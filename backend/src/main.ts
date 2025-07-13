@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './user.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
@@ -15,6 +15,7 @@ async function bootstrap() {
     },
   });
 
+  console.log(process.env.DB_PORT);
   await app.startAllMicroservices();
   await app.listen(4001);
 }

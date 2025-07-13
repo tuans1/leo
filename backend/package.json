@@ -17,21 +17,34 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "gen": "cd ./src/proto && buf generate --path user.proto --output ./build/ --template buf.index.gen.yaml && buf generate --path user.proto --output ./build --template buf.gen.yaml && xcopy /Y *.md ..\\build\\chorus\\vsm\\ && xcopy /Y *.proto .\\build\\",
+    "typeorm:cli": "ts-node -r dotenv/config -r tsconfig-paths/register ./node_modules/typeorm/cli",
+    "migration:create": "node ./scripts/cross-npm-var.js npx typeorm migration:create src/shared/db/migrations/${npm_config_name}",
+    "migration:run": "node ./scripts/cross-npm-var.js npm run typeorm:cli -- migration:run -d src/shared/db/data-source.ts",
+    "migration:revert": "node ./scripts/cross-npm-var.js npm run typeorm:cli -- migration:revert -d src/shared/db/data-source.ts",
+    "migration:show": "node ./scripts/cross-npm-var.js npm run typeorm:cli -- migration:show -d src/shared/db/data-source.ts",
+    "schema:log": "node ./scripts/cross-npm-var.js npm run typeorm:cli -- schema:log -d src/shared/db/data-source.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",
+    "@bufbuild/buf": "^1.51.0",
     "@grpc/grpc-js": "^1.12.6",
     "@grpc/proto-loader": "^0.7.13",
     "@nestjs/apollo": "^13.0.3",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/graphql": "^13.0.3",
     "@nestjs/microservices": "^11.0.13",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.0",
     "graphql": "^16.10.0",
+    "protoc-gen-ts": "^0.8.7",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.25"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

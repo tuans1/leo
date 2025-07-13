@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
 import {
   UserServiceControllerMethods,
-  UserRequest,
+  GetListUserRequest,
 } from './proto/build/proto-gen/user';
 import { Error } from './shared/common/errors/Error';
 import { Result } from './shared/common/Result';
@@ -12,7 +12,7 @@ import { Result } from './shared/common/Result';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  getUser(request: UserRequest) {
+  getUser(request: GetListUserRequest) {
     return {
       user: [
         {

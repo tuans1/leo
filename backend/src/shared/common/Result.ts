@@ -31,6 +31,6 @@ export class Result<TData = any, TError = Error> {
   }
 
   public static error<TError>(error: TError) {
-    return new Result({ isSuccess: true, data: undefined, error });
+    return new Result({ isSuccess: false, data: undefined, error });
   }
 }
