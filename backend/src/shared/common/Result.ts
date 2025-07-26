@@ -26,11 +26,19 @@ export class Result<TData = any, TError = Error> {
     return !this._props.isSuccess;
   }
 
-  public static success<TData>(data: TData) {
-    return new Result({ isSuccess: true, data, error: undefined });
+  public static success<TData, TError>(data: TData) {
+    return new Result<TData, TError>({
+      isSuccess: true,
+      data,
+      error: undefined,
+    });
   }
 
-  public static error<TError>(error: TError) {
-    return new Result({ isSuccess: false, data: undefined, error });
+  public static error<TData, TError>(error: TError) {
+    return new Result<TData, TError>({
+      isSuccess: false,
+      data: undefined,
+      error,
+    });
   }
 }

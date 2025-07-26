@@ -1,18 +1,16 @@
 import { Controller } from '@nestjs/common';
-import { AppService } from './app.service';
+
 import {
-  UserServiceControllerMethods,
   GetListUserRequest,
-} from './proto/build/proto-gen/user';
-import { Error } from './shared/common/errors/Error';
-import { Result } from './shared/common/Result';
+  UserServiceControllerMethods,
+} from 'src/proto/build/proto-gen/user';
 
 @Controller()
 @UserServiceControllerMethods()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
-  getUser(request: GetListUserRequest) {
+  getListUser(request: GetListUserRequest) {
     return {
       user: [
         {

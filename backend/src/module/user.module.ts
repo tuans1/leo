@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './user.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './shared/db/typeorm.config';
+import { typeOrmConfig } from 'src/shared/db/typeorm.config';
+import { AppController } from './presentation/user.controller';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { typeOrmConfig } from './shared/db/typeorm.config';
       inject: [ConfigService],
       useFactory: () => typeOrmConfig,
     }),
+    CqrsModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [],
