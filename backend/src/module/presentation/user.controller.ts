@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 
 import {
+  CreateUserRequest,
   GetListUserRequest,
   UserServiceControllerMethods,
 } from 'src/proto/build/proto-gen/user';
@@ -10,7 +11,7 @@ import {
 export class AppController {
   constructor() {}
 
-  getListUser(request: GetListUserRequest) {
+  async getListUser(request: GetListUserRequest) {
     return {
       user: [
         {
@@ -22,5 +23,9 @@ export class AppController {
         },
       ],
     };
+  }
+
+  async createUser(request: CreateUserRequest) {
+    console.log(request);
   }
 }

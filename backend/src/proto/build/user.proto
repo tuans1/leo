@@ -20,6 +20,8 @@ message GetListUserResponse {
 message CreateUserRequest {
   string full_name = 1;
   string email = 2;
+  string password = 3;
+  string confirm_password = 4;
 }
 message CreateUserResponse {
   User user = 1;

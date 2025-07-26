@@ -19,6 +19,8 @@ export interface GetListUserResponse {
 export interface CreateUserRequest {
   fullName: string;
   email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface CreateUserResponse {

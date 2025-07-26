@@ -32,10 +32,10 @@ export class UserDto {
   @IsString()
   @Length(2, 50)
   @IsNotEmpty()
-  name: string;
+  fullName: string;
 
   @IsUrl()
-  avatar: string;
+  avatar?: string;
 
   @IsDate()
   @IsNotEmpty()
