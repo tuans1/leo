@@ -3,27 +3,31 @@ import { IUsecase } from 'src/shared/common/definitions/interfaces/IUsecase';
 import { Result } from 'src/shared/common/Result';
 import { CreateUserCommand } from './create-user.command';
 import { v4 as uuid } from 'uuid';
+import { ICommandRepository } from 'src/module/domain/repositories/command.repository';
+import { UserAggregate } from 'src/module/domain/aggregate/User.aggregate';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserUsecase
   implements IUsecase, ICommandHandler<CreateUserCommand>
 {
-  constructor(private readonly) {}
+  constructor(private readonly userCommandRepository: ICommandRepository) {}
 
   async execute(userData: CreateUserCommand): Promise<Result> {
     try {
       // Mock successful creation
-      const newUser = {
+      const newUser = new UserAggregate({
         userId: uuid(), // Generate a new UUID for the user
-        email: userData.email,
-        password: userData.password,
+        email: userData.args.email,
+        password: userData.args.password,
+        fullName: userData.args.fullName,
         createdAt: new Date(),
         updatedAt: new Date(),
         isActive: true,
-        fullName: userData.fullName,
-      };
+      });
 
-      return Result.success(newUser);
+      const result = await this.userCommandRepository.createUser(newUser);
+
+      return Result.success(result.data);
     } catch (error) {
       return Result.error(error);
     }

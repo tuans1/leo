@@ -3,7 +3,6 @@ export type UserAggregateArgs = {
   email: string;
   fullName: string;
   password: string;
-  confirmPassword: string;
   avatar?: string;
   isActive?: boolean;
   createdAt?: Date;
@@ -12,6 +11,7 @@ export type UserAggregateArgs = {
 
 export class UserAggregate {
   private readonly _user: UserAggregateArgs;
+
   constructor(user: UserAggregateArgs) {
     this._user = user;
   }
