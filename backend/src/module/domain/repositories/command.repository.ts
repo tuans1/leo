@@ -1,7 +1,7 @@
 import { Result } from 'src/shared/common/Result';
-import { CreateUserCommand } from 'src/module/application/usecases/create-user/create-user.command';
+import { UserAggregate } from '../aggregate/User.aggregate';
 
 // why should use interface instead of class?
 export interface ICommandRepository {
-  createUser(user: CreateUserCommand): Promise<Result>;
+  createUser(user: UserAggregate): Promise<Result>;
 }

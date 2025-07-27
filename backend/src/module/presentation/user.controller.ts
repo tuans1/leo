@@ -1,15 +1,19 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Injectable } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
 
 import {
   CreateUserRequest,
+  CreateUserResponse,
   GetListUserRequest,
   UserServiceControllerMethods,
 } from 'src/proto/build/proto-gen/user';
+import { CreateUserCommand } from '../application/usecases/create-user/create-user.command';
+import { Result } from 'src/shared/common/Result';
 
 @Controller()
 @UserServiceControllerMethods()
-export class AppController {
-  constructor() {}
+export class UserController {
+  constructor(private readonly commandBus: CommandBus) {}
 
   async getListUser(request: GetListUserRequest) {
     return {
@@ -25,7 +29,12 @@ export class AppController {
     };
   }
 
-  async createUser(request: CreateUserRequest) {
-    console.log(request);
+  async createUser(request: CreateUserRequest): Promise<Result> {
+    const result = await this.commandBus.execute<
+      any,
+      Result<CreateUserResponse>
+    >(new CreateUserCommand(request));
+
+    return Result.success(result.data);
   }
 }

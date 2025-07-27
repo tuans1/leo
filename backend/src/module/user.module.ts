@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from 'src/shared/db/typeorm.config';
-import { AppController } from './presentation/user.controller';
+import { UserController } from './presentation/user.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
@@ -18,7 +18,7 @@ import { CqrsModule } from '@nestjs/cqrs';
     }),
     CqrsModule.forRoot(),
   ],
-  controllers: [AppController],
+  controllers: [UserController],
   providers: [],
 })
-export class AppModule {}
+export class UserModule {}

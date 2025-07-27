@@ -1,8 +1,18 @@
+type CreateUserCommandArgs = {
+  email: string;
+  fullName: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export class CreateUserCommand {
-  constructor(
-    public readonly email: string,
-    public readonly fullName: string,
-    public readonly password: string,
-    public readonly confirmPassword: string,
-  ) {}
+  private readonly _args: CreateUserCommandArgs;
+
+  constructor(args: CreateUserCommandArgs) {
+    this._args = args;
+  }
+
+  public get args(): CreateUserCommandArgs {
+    return this._args;
+  }
 }
