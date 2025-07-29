@@ -5,3 +5,5 @@ export interface IQueryRepository {
   findUserById(userId: string): Promise<Result>;
   findUserByEmail(email: string): Promise<Result>;
 }
+
+export const IQueryRepositorySymbol = Symbol('IQueryRepositorySymbol');

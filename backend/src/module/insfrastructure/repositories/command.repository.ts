@@ -10,6 +10,7 @@ export class CommandRepository implements ICommandRepository {
   constructor(private readonly dataSource: DataSource) {}
 
   async createUser(user: UserAggregate): Promise<Result> {
+    console.log('🚀 ~ CommandRepository ~ createUser ~ user:', user);
     try {
       const result = await this.dataSource
         .createQueryBuilder()
@@ -20,6 +21,7 @@ export class CommandRepository implements ICommandRepository {
 
       return Result.success(result);
     } catch (error) {
+      console.log('🚀 ~ CommandRepository ~ createUser ~ error:', error);
       return Result.error(error);
     }
   }

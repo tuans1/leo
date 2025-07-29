@@ -5,3 +5,5 @@ import { UserAggregate } from '../aggregate/User.aggregate';
 export interface ICommandRepository {
   createUser(user: UserAggregate): Promise<Result>;
 }
+
+export const ICommandRepositorySymbol = Symbol('ICommandRepositorySymbol');

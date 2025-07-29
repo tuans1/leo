@@ -3,14 +3,21 @@ import { IUsecase } from 'src/shared/common/definitions/interfaces/IUsecase';
 import { Result } from 'src/shared/common/Result';
 import { CreateUserCommand } from './create-user.command';
 import { v4 as uuid } from 'uuid';
-import { ICommandRepository } from 'src/module/domain/repositories/command.repository';
+import {
+  ICommandRepository,
+  ICommandRepositorySymbol,
+} from 'src/module/domain/repositories/command.repository';
 import { UserAggregate } from 'src/module/domain/aggregate/User.aggregate';
+import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserUsecase
   implements IUsecase, ICommandHandler<CreateUserCommand>
 {
-  constructor(private readonly userCommandRepository: ICommandRepository) {}
+  constructor(
+    @Inject(ICommandRepositorySymbol)
+    private readonly userCommandRepository: ICommandRepository,
+  ) {}
 
   async execute(userData: CreateUserCommand): Promise<Result> {
     try {
