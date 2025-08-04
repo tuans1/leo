@@ -32,6 +32,7 @@ export class CreateUser1752368536879 implements MigrationInterface {
           {
             name: 'avatar',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'is_active',

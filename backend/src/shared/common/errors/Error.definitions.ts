@@ -1,9 +1,9 @@
 export enum ErrorType {
-  BAD_REQUEST,
-  NOT_FOUND,
-  CONFLICT,
-  SERVER_ERROR,
-  SIMPLE,
+  BAD_REQUEST = 'BAD_REQUEST',
+  NOT_FOUND = 'NOT_FOUND',
+  CONFLICT = 'CONFLICT',
+  SERVER_ERROR = 'SERVER_ERROR',
+  SIMPLE = 'SIMPLE',
 }
 
 export enum ErrorCode {

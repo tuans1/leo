@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IQueryRepository } from 'src/module/domain/repositories/query.repository';
 import { Result } from 'src/shared/common/Result';
-import { User } from 'src/shared/db/entities/user.entity';
+import { UserEntity as User } from 'src/shared/db/entities/user.entity';
 import { DataSource } from 'typeorm';
 
 @Injectable()
@@ -15,11 +15,12 @@ export class QueryRepository implements IQueryRepository {
         .select()
         .from(User, 'user')
         .execute();
+      console.log('🚀 ~ QueryRepository ~ getListUser ~ users:', users);
 
       return Result.success(users);
     } catch (error) {
       console.error('Error fetching user list:', error);
-      return Result.error(error);
+      return Result.fail(error);
     }
   }
 
@@ -34,7 +35,7 @@ export class QueryRepository implements IQueryRepository {
 
       return Result.success(user);
     } catch (error) {
-      return Result.error(error);
+      return Result.fail(error);
     }
   }
 
@@ -49,7 +50,7 @@ export class QueryRepository implements IQueryRepository {
 
       return Result.success(user);
     } catch (error) {
-      return Result.error(error);
+      return Result.fail(error);
     }
   }
 }

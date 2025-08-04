@@ -2,7 +2,7 @@
 import { Metadata } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-import { Timestamp } from "./google/protobuf/timestamp";
+import { ErrorResponse } from "./base";
 
 export const protobufPackage = "user";
 
@@ -12,7 +12,9 @@ export interface GetListUserRequest {
 }
 
 export interface GetListUserResponse {
-  listUser: User[];
+  isSuccess: boolean;
+  error: ErrorResponse | undefined;
+  data: User[];
 }
 
 /** CREATE USER */
@@ -24,17 +26,19 @@ export interface CreateUserRequest {
 }
 
 export interface CreateUserResponse {
-  user: User | undefined;
+  isSuccess: boolean;
+  error: ErrorResponse | undefined;
+  data: User | undefined;
 }
 
 export interface User {
   fullName: string;
   email: string;
   avatar?: string | undefined;
-  createdAt: Timestamp | undefined;
-  updatedAt: Timestamp | undefined;
-  userId?: string | undefined;
-  password?: string | undefined;
+  createdAt: number;
+  updatedAt: number;
+  userId: string;
+  password: string;
   isActive: boolean;
 }
 

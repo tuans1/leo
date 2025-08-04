@@ -23,7 +23,7 @@ export class GetListUserUsecase
 
       return Result.success(result.data);
     } catch (error) {
-      return Result.error(error);
+      return Result.fail(error);
     }
   }
 }

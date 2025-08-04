@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { ErrorStatusCode, ErrorType } from './Error.definitions';
 
 type Props<TData> = {
   type?: ErrorType;
   statusCode?: ErrorStatusCode;
-  description?: string;
+  description?: any;
   data?: TData;
 };
 
@@ -30,63 +32,43 @@ export class Error<TData = any> {
     return this._props.data;
   }
 
-  public static simple<TData = any>(
-    description?: string,
-    data?: TData,
-  ): Error<TData> {
+  public static simple<TData = any>(description?: any): Error<TData> {
     return new Error<TData>({
       type: ErrorType.SIMPLE,
       statusCode: ErrorStatusCode.SIMPLE,
       description,
-      data,
     });
   }
 
-  public static badRequest<TData = any>(
-    description?: string,
-    data?: TData,
-  ): Error<TData> {
+  public static badRequest<TData = any>(description?: any): Error<TData> {
     return new Error<TData>({
       type: ErrorType.BAD_REQUEST,
       statusCode: ErrorStatusCode.BAD_REQUEST,
       description,
-      data,
     });
   }
 
-  public static conflict<TData = any>(
-    description?: string,
-    data?: TData,
-  ): Error<TData> {
+  public static conflict<TData = any>(description?: any): Error<TData> {
     return new Error<TData>({
       type: ErrorType.CONFLICT,
       statusCode: ErrorStatusCode.CONFLICT,
       description,
-      data,
     });
   }
 
-  public static serverError<TData = any>(
-    description?: string,
-    data?: TData,
-  ): Error<TData> {
+  public static serverError<TData = any>(description?: any): Error<TData> {
     return new Error<TData>({
       type: ErrorType.SERVER_ERROR,
       statusCode: ErrorStatusCode.SERVER_ERROR,
       description,
-      data,
     });
   }
 
-  public static notFound<TData = any>(
-    description?: string,
-    data?: TData,
-  ): Error<TData> {
+  public static notFound<TData = any>(description?: any): Error<TData> {
     return new Error<TData>({
       type: ErrorType.NOT_FOUND,
       statusCode: ErrorStatusCode.NOT_FOUND,
       description,
-      data,
     });
   }
 }

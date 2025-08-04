@@ -9,6 +9,7 @@ import {
 } from 'src/module/domain/repositories/command.repository';
 import { UserAggregate } from 'src/module/domain/aggregate/User.aggregate';
 import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
+import { Error } from 'src/shared/common/errors/Error';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserUsecase
@@ -20,23 +21,24 @@ export class CreateUserUsecase
   ) {}
 
   async execute(userData: CreateUserCommand): Promise<Result> {
-    try {
-      // Mock successful creation
-      const newUser = new UserAggregate({
-        userId: uuid(), // Generate a new UUID for the user
-        email: userData.args.email,
-        password: userData.args.password,
-        fullName: userData.args.fullName,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isActive: true,
-      });
+    // Mock successful creation
+    const newUser = UserAggregate.createUser({
+      userId: uuid(), // Generate a new UUID for the user
+      email: userData.args.email,
+      password: userData.args.password,
+      fullName: userData.args.fullName,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: true,
+    });
 
-      const result = await this.userCommandRepository.createUser(newUser);
+    const result = await this.userCommandRepository.createUser(newUser);
 
-      return Result.success(result.data);
-    } catch (error) {
-      return Result.error(error);
+    if (result.isFail) {
+      console.log(result.error?.description, '----');
+      return Result.fail(Error.serverError(result.error));
     }
+
+    return Result.success(newUser.present);
   }
 }

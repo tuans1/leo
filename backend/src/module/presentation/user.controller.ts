@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseFilters, UseInterceptors } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import {
@@ -10,9 +10,13 @@ import {
 import { CreateUserCommand } from '../application/usecases/create-user/create-user.command';
 import { Result } from 'src/shared/common/Result';
 import { GetListUserQuery } from '../application/query/get-list-user/get-list-user.query';
+import { GrpcResponseInterceptor } from 'src/shared/nestjs/interceptor/grpc.interceptor';
+import { GrpcCatchEverythingFilter } from 'src/shared/nestjs/interceptor/grpc.exception-filter';
 
 @Controller()
 @UserServiceControllerMethods()
+@UseFilters(new GrpcCatchEverythingFilter())
+@UseInterceptors(new GrpcResponseInterceptor())
 export class UserController {
   constructor(
     private readonly commandBus: CommandBus,
@@ -24,7 +28,7 @@ export class UserController {
       new GetListUserQuery(request),
     );
 
-    return Result.success(result.data);
+    return Result.success(result);
   }
 
   async createUser(request: CreateUserRequest): Promise<Result> {
@@ -32,6 +36,11 @@ export class UserController {
       any,
       Result<CreateUserResponse>
     >(new CreateUserCommand(request));
+
+    if (result.isFail) {
+      console.log('🚀 ~ UserController ~ createUser ~ result.error:', result);
+      // return Result.fail(result.error);
+    }
 
     return Result.success(result.data);
   }

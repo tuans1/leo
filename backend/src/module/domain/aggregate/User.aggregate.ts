@@ -19,4 +19,9 @@ export class UserAggregate {
   public get present(): UserAggregateArgs {
     return this._user;
   }
+
+  static createUser(props: UserAggregateArgs) {
+    const userAggregate = new UserAggregate(props);
+    return userAggregate;
+  }
 }
