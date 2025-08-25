@@ -1,0 +1,30 @@
+syntax = "proto3";
+package auth;
+
+import "base.proto";
+import "user.proto";
+
+service AuthService {
+  rpc login (LoginRequest) returns (LoginResponse);
+}
+
+// LOGIN
+message UserAndToken {
+  string token = 1;
+  user.User user = 2;
+}
+
+message LoginResponse {
+  bool is_success = 1;
+  base.ErrorResponse error = 2;
+  UserAndToken data = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+
+
+

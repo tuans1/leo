@@ -39,6 +39,6 @@ message User {
   double created_at = 4;
   double updated_at = 5;
   string user_id = 6;
-  string password = 7;
+  optional string password = 7;
   bool is_active = 8;
 }

@@ -38,7 +38,7 @@ export interface User {
   createdAt: number;
   updatedAt: number;
   userId: string;
-  password: string;
+  password?: string | undefined;
   isActive: boolean;
 }
 

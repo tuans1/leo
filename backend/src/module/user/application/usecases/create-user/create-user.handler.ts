@@ -1,0 +1,44 @@
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { IUsecase } from 'src/_shared/common/definitions/interfaces/IUsecase';
+import { Result } from 'src/_shared/common/Result';
+import { CreateUserCommand } from './create-user.command';
+import { v4 as uuid } from 'uuid';
+import {
+  ICommandRepository,
+  ICommandRepositorySymbol,
+} from 'src/module/user/domain/repositories/command.repository';
+import { UserAggregate } from 'src/module/user/domain/aggregate/User.aggregate';
+import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
+import { Error } from 'src/_shared/common/errors/Error';
+
+@CommandHandler(CreateUserCommand)
+export class CreateUserUsecase
+  implements IUsecase, ICommandHandler<CreateUserCommand>
+{
+  constructor(
+    @Inject(ICommandRepositorySymbol)
+    private readonly userCommandRepository: ICommandRepository,
+  ) {}
+
+  async execute(userData: CreateUserCommand): Promise<Result> {
+    // Mock successful creation
+    const newUser = UserAggregate.createUser({
+      userId: uuid(), // Generate a new UUID for the user
+      email: userData.args.email,
+      password: userData.args.password,
+      fullName: userData.args.fullName,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: true,
+    });
+
+    const result = await this.userCommandRepository.createUser(newUser);
+
+    if (result.isFail) {
+      console.log(result.error?.description, '----');
+      return Result.fail(Error.serverError(result.error));
+    }
+
+    return Result.success(newUser.present);
+  }
+}
