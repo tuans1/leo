@@ -6,6 +6,10 @@ import { BaseQueryUsecase } from 'src/_shared/common/use-case/base-query.use-cas
 import { LoginResult } from './login.result';
 import { TokenService } from 'src/module/auth/insfrastructure/services/jwt.service';
 import { Inject } from '@nestjs/common';
+import {
+  IRedisRepository,
+  IRedisRepositorySymbol,
+} from 'src/_shared/vendors/cached/redis.repository';
 
 @QueryHandler(LoginQuery)
 export class LoginUsecase
@@ -15,6 +19,8 @@ export class LoginUsecase
   constructor(
     @Inject(TokenService)
     private readonly tokenService: TokenService,
+    @Inject(IRedisRepositorySymbol)
+    private readonly redis: IRedisRepository,
   ) {
     super();
   }
@@ -38,7 +44,12 @@ export class LoginUsecase
       fullName: user.fullName,
       isActive: user.isActive,
     });
-    console.log('🚀 ~ LoginUsecase ~ execute ~ tokens:', tokens);
+
+    await this.redis.set(
+      `refresh_token:${user.userId}`,
+      tokens.refreshToken,
+      3600,
+    );
 
     return Result.success(
       new LoginResult({

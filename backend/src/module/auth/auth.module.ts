@@ -7,6 +7,8 @@ import { QueryRepository } from '../user/insfrastructure/repositories/query.repo
 import { UserDao, UserDaoSymbol } from 'src/_shared/db/typeorm/dao';
 import { JwtModule } from '@nestjs/jwt';
 import { TokenService } from './insfrastructure/services/jwt.service';
+import { RedisInfrastructure } from 'src/_shared/vendors/cached/redis.infrastructure';
+import { IRedisRepositorySymbol } from 'src/_shared/vendors/cached/redis.repository';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { TokenService } from './insfrastructure/services/jwt.service';
   providers: [
     TokenService,
     LoginUsecase,
+    { provide: IRedisRepositorySymbol, useClass: RedisInfrastructure },
     {
       provide: IQueryRepositorySymbol,
       useClass: QueryRepository,
