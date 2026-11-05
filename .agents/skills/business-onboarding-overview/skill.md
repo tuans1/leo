@@ -1,7 +1,7 @@
 ---
 name: business-onboarding-overview
 description: Use when the user wants to understand what a codebase does from a business perspective: its purpose, users, features, domains, integrations, and data ownership. Triggers on "onboard me to this repo", "business overview", "what does this system do". Not for code walkthroughs or architecture deep-dives.
-
+user-invocable: true
 ---
 
 When To Use:
